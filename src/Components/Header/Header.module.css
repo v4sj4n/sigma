@@ -1,7 +1,7 @@
 .navbar {
     display: flex;
     justify-content: space-between;
-padding: 2rem 6rem;
+    padding: 2rem 6rem;
     background-color: #A1EAA3;
 
 
@@ -11,7 +11,7 @@ padding: 2rem 6rem;
         color: #454545;
     }
 
-    > div  {
+    >div {
         display: flex;
         gap: 2rem;
         flex-direction: row;
