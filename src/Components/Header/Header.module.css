@@ -1,0 +1,19 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+padding: 2rem 6rem;
+    background-color: #A1EAA3;
+
+
+    & a {
+        font-size: 1.75rem;
+        text-decoration: none;
+        color: #454545;
+    }
+
+    > div  {
+        display: flex;
+        gap: 2rem;
+        flex-direction: row;
+    }
+}
