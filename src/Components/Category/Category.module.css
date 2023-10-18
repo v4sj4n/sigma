@@ -1,0 +1,8 @@
+.category-style {
+    padding: 1.5rem 6rem 0rem;
+
+    > div {
+        display: flex;
+        justify-content: space-between;
+    }
+}

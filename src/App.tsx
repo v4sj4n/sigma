@@ -1,18 +1,13 @@
-import Card from "./Components/Card/Card"
+import Category from "./Components/Category/Category"
 import Header from "./Components/Header/Header"
 
 export default function App() {
   return (
     <>
       <Header />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <Card />
+
+      <Category />
+      <Category />
     </>
   )
 }
-

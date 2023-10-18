@@ -4,7 +4,11 @@
     overflow: hidden;
     width: 20%;
 
-    >img {
+    & a {
+        text-decoration: none;
+    }
+
+    >a img {
         width: 100%;
     }
 
@@ -12,6 +16,13 @@
         margin-top: 0.75rem;
         margin-bottom: 0.5rem;
         padding-left: 1rem;
+
+        & a{
+            color: #1f1f1f;
+        }
+        & a:hover{
+            text-decoration: underline;
+        }
     }
 
     >div {
@@ -21,15 +32,17 @@
         margin-bottom: 1rem;
         padding-left: 1.2rem;
 
-        >img {
+        >a img {
             border-radius: 20px;
-            width: 6%;
-            height: 6%;
+            width: 25px;
         }
 
         >h4 {
             margin: 0;
-            color: #333;
+
+            > a {
+                color: #333;
+            }
         }
     }
 }
@@ -37,4 +50,5 @@
 .card:hover {
     border-right: 9px solid #000;
     border-bottom: 9px solid #000;
+    border-radius: 2rem;
 }

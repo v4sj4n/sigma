@@ -2,7 +2,7 @@ import styles from "./Header.module.css"
 const Header = () => {
   return (
     <nav className={styles.navbar}>
-      <a href="/">Sigma</a>
+      <a href="/"><strong>Sigma</strong></a>
 
       <div>
         <a href="">Dashboard</a>
