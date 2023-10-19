@@ -9,7 +9,7 @@ const Header = () => {
       <div>
         <a href="">Dashboard</a>
         <a href="">Explore</a>
-        <a href="">My Profile</a>
+        <a href="/authenticate">My Profile</a>
       </div>
 
       <a href="">

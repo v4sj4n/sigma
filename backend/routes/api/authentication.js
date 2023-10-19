@@ -3,9 +3,16 @@ const Users = require("../../Users")
 const router = express.Router()
 
 router.post("/login", (req, res) => {
-  console.log({name: req.body.name, password: req.body.password})
+  const user = { email: req.body.email, password: req.body.password }
+  console.log(user)
+  res.json(user)
 })
-router.post("/register", (req, res) => {})
+router.post("/register", (req, res) => {
+   const user = { email: req.body.email, password: req.body.password }
+   console.log(user)
+   res.json(user)
+
+})
 
 
 module.exports = router

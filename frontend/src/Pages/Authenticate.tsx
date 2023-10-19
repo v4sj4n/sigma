@@ -1,7 +1,7 @@
-import { useState } from "react"
 import Header from "../Components/Header/Header"
-import { Outlet, useLocation } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 import Login from "../Components/Login/Login"
+import Register from "../Components/Register/Register"
 
 export default function Authenticate() {
   const loc = useLocation()
@@ -11,7 +11,7 @@ export default function Authenticate() {
     <>
       <Header />
 
-      {loc.pathname === "/authenticate" ? <Login /> : <Outlet />}
+      {loc.pathname === "/authenticate" ? <Login /> : <Register />}
     </>
   )
 }
