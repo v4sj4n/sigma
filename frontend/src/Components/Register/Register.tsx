@@ -1,27 +1,30 @@
-import { Link, redirect } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import styles from "./Register.module.css"
-import { useState } from "react"
+import { FormEvent, useState } from "react"
 import axios from "axios"
 
 export default function Register() {
   const [email, setEmail] = useState<string>("")
   const [password1, setPassword1] = useState<string>("")
   const [password2, setPassword2] = useState<string>("")
+  const navigate = useNavigate()
 
-  const submitHandler = async () => {
-    if (password1.length > 8) {
-      if (password1 === password2) {
-        const URL = "http://localhost:3000/api/authentication/register"
-        await axios.post(URL, {email: email, password: password1})
-        
+  const submitHandler = async (e: FormEvent) => {
+    e.preventDefault()
+    if (password1.length > 8 && password1 === password2) {
+      const URL = "http://localhost:3000/api/authentication/register"
+      try {
+        await axios.post(URL, { email, password: password1 })
+        navigate("/")
+      } catch (error) {
+        console.error("Registration failed:", error)
       }
     }
-    redirect("/")
-    // When the database connection is made I will check the db first for a user with this email
   }
+
   return (
     <div className={styles.registerDiv}>
-      <form>
+      <form onSubmit={submitHandler}>
         <h4>Login</h4>
         <label htmlFor="email">
           Email <br />
@@ -29,6 +32,7 @@ export default function Register() {
             type="email"
             name="email"
             id="email"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </label>
@@ -38,6 +42,7 @@ export default function Register() {
             type="password"
             name="password"
             id="password"
+            value={password1}
             onChange={(e) => setPassword1(e.target.value)}
           />
         </label>
@@ -47,15 +52,11 @@ export default function Register() {
             type="password"
             name="passwordConfirmation"
             id="passwordConfirmation"
+            value={password2}
             onChange={(e) => setPassword2(e.target.value)}
           />
         </label>
-        <button type="submit" onSubmit={async (e) => {
-          e.preventDefault()
-          await submitHandler()
-        }}>
-          Register
-        </button>
+        <button type="submit">Register</button>
       </form>
       <p>
         Already have an account, <Link to={"/authenticate"}>login</Link>
