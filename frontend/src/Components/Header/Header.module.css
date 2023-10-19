@@ -11,6 +11,11 @@
         color: #454545;
     }
 
+    >a:nth-child(1) {
+        padding-left: 0.8rem;
+        transform: rotate(-33deg);
+    }
+
     >div {
         display: flex;
         gap: 2rem;
