@@ -11,7 +11,7 @@ export default function Register() {
 
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault()
-    if (password1.length > 8 && password1 === password2) {
+    if (password1.length >= 8 && password1 == password2) {
       const URL = "http://localhost:3000/api/authentication/register"
       try {
         await axios.post(URL, { email, password: password1 })
