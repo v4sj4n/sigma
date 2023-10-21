@@ -47,7 +47,7 @@ router.post("/register", async (req, res) => {
 })
 
 router.get("/user", (req, res) => {
-  if (req.user) return res.send(req.user)
+  if (req) return res.send(req.user)
   else {
     return res.json({ msg: "Can't find logged in user" })
   }

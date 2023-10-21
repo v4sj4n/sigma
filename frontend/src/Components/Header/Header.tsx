@@ -11,7 +11,7 @@ const Header = () => {
       url: "http://localhost:3000/api/authentication/user",
     }).then((res) => {
       setLoggedInUser(res.data.username)
-      // console.log(res.data)
+      console.log(res.data)
     })
   }
 
@@ -28,7 +28,7 @@ const Header = () => {
         <a href="/">Dashboard</a>
         <a href="/">Explore</a>
         {loggedInUser ? (
-          <a href="/authenticate">
+          <a href="/myProfile">
             {loggedInUser}
           </a>
         ) : (
