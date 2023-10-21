@@ -6,7 +6,6 @@ import Register from "../Components/Register/Register"
 export default function Authenticate() {
   const loc = useLocation()
 
-  console.log(loc)
   return (
     <>
       <Header />

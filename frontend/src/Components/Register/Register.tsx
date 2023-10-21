@@ -1,10 +1,11 @@
 import { Link, useNavigate } from "react-router-dom"
 import styles from "./Register.module.css"
 import { FormEvent, useState } from "react"
-import axios from "axios"
+import Axios from "axios"
 
 export default function Register() {
   const [email, setEmail] = useState<string>("")
+  const [username, setUsername] = useState<string>("")
   const [password1, setPassword1] = useState<string>("")
   const [password2, setPassword2] = useState<string>("")
   const navigate = useNavigate()
@@ -12,9 +13,17 @@ export default function Register() {
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault()
     if (password1.length >= 8 && password1 == password2) {
-      const URL = "http://localhost:3000/api/authentication/register"
       try {
-        await axios.post(URL, { email, password: password1 })
+        await Axios({
+          method: "POST",
+          withCredentials: true,
+          data: {
+            email,
+            username,
+            password: password1,
+          },
+          url: "http://localhost:3000/api/authentication/register",
+        })
         navigate("/")
       } catch (error) {
         console.error("Registration failed:", error)
@@ -34,6 +43,16 @@ export default function Register() {
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+          />
+        </label>
+        <label htmlFor="username">
+          Username <br />
+          <input
+            type="username"
+            name="username"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </label>
         <label htmlFor="password">

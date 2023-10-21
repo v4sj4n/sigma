@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom"
 import styles from "./Login.module.css"
 import { FormEvent, useState } from "react"
-import axios from "axios"
+import Axios from "axios"
 
 export default function Login() {
   const [email, setEmail] = useState<string>("")
@@ -10,9 +10,19 @@ export default function Login() {
 
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault()
-    const URL = "http://localhost:3000/api/authentication/login"
     try {
-      await axios.post(URL, { email, password })
+      await Axios({
+        method: "POST",
+        withCredentials: true,
+        data: {
+          email, 
+          password,
+        },
+        url: "http://localhost:3000/api/authentication/login",
+      })
+        .then((res) => console.log(res))
+        .catch((err) => console.error(err))
+
       navigate("/")
     } catch (error) {
       console.error("Login failed:", error)
@@ -29,7 +39,7 @@ export default function Login() {
             type="email"
             name="email"
             id="email"
-            value={email} // Use value to display the email in the input
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </label>
@@ -39,7 +49,7 @@ export default function Login() {
             type="password"
             name="password"
             id="password"
-            value={password} // Use value to display the password in the input
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
