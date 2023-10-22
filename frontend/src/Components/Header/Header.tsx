@@ -3,7 +3,6 @@ import styles from "./Header.module.css"
 import Axios from "axios"
 
 const Header = () => {
-
   const [loggedInUser, setLoggedInUser] = useState(null)
   const getUser = async () => {
     await Axios({
@@ -29,13 +28,9 @@ const Header = () => {
         <a href="/">Dashboard</a>
         <a href="/">Explore</a>
         {loggedInUser ? (
-          <a href={`/user/${loggedInUser}`}>
-            {loggedInUser}
-          </a>
+          <a href={`/user/${loggedInUser}`}>{loggedInUser}</a>
         ) : (
-          <a href="/authenticate">
-            Authenticate
-          </a>
+          <a href="/authenticate">Authenticate</a>
         )}
       </div>
 

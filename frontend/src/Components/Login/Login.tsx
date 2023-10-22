@@ -18,8 +18,8 @@ export default function Login() {
         data: {
           email,
           password,
-        }}
-      )
+        },
+      })
       console.log(response)
       if (response.data !== "No User Exists") {
         navigate("/")

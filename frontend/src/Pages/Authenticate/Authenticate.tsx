@@ -9,7 +9,6 @@ export default function Authenticate() {
   return (
     <>
       <Header />
-
       {loc.pathname === "/authenticate" ? <Login /> : <Register />}
     </>
   )

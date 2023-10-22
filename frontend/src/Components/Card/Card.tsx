@@ -9,12 +9,12 @@ export default function Card() {
         <a href="">Course Title</a>
       </h1>
       <div>
-          <a href="">
-            <img src="teacher.png" alt="Teacher name" />
-          </a>
-          <h4>
-            <a href="">Teacher Name</a>
-          </h4>
+        <a href="">
+          <img src="teacher.png" alt="Teacher name" />
+        </a>
+        <h4>
+          <a href="">Teacher Name</a>
+        </h4>
       </div>
     </div>
   )

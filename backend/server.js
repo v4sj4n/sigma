@@ -20,7 +20,6 @@ app.use(
 )
 app.use(cookieParser("halaMadrid"))
 
-
 app.use("/api/authentication", require("./routes/api/authentication"))
 app.use("/api/user", require("./routes/api/user"))
 const PORT = process.env.PORT || 3000

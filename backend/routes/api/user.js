@@ -44,5 +44,25 @@ router.get("/:username", async (req, res) => {
     }
   }
 })
+router.put("/:username/description", async (req, res) => {
+  const signedInUser = await req.user.username
+  const { username } = req.params
+  if (signedInUser === username) {
+    try {
+      await prisma.user.update({
+        where: {
+          username,
+        },
+        data: {
+          description: req.body.description,
+        },
+      })
+      res.status(200).json({ success: true })
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ success: false })
+    }
+  }
+})
 
 module.exports = router

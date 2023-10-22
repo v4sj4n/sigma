@@ -4,6 +4,9 @@ import styles from "./UserProfile.module.css"
 import Axios from "axios"
 import { useNavigate, useParams } from "react-router-dom"
 
+import Edit from "../../assets/pencil.svg"
+import Cancel from "../../assets/window-close.svg"
+import Done from "../../assets/check.svg"
 
 interface User {
   firstName: string
@@ -11,6 +14,7 @@ interface User {
   username: string
   email?: string
   image?: string
+  description?: string
 }
 
 export default function UserProfile() {
@@ -21,9 +25,10 @@ export default function UserProfile() {
     email: "",
     image: "",
   })
+  const [toEdit, setToEdit] = useState<boolean>(false)
+  const [description, setDescription] = useState<string | null>(null)
   const { username } = useParams()
   const navigate = useNavigate()
-
 
   const logoutHandler = async () => {
     await Axios({
@@ -34,11 +39,33 @@ export default function UserProfile() {
       .then((res) => {
         console.log(res.data)
         navigate("/")
-
       })
       .catch((err) => {
         console.error(err)
       })
+  }
+
+  const saveDescription = async () => {
+    console.log(description)
+    if (description) {
+      await Axios({
+        method: "PUT",
+        withCredentials: true,
+        url: `http://localhost:3000/api/user/${username}/description`,
+        data: {
+          description,
+        },
+      })
+        .then((res) => {
+          console.log(res)
+          if (res.data.success) {
+            setToEdit(!toEdit)
+          }
+        })
+        .catch((error) => {
+          console.error("Error updating description:", error)
+        })
+    }
   }
 
   const getUser = () => {
@@ -49,6 +76,7 @@ export default function UserProfile() {
         url: `http://localhost:3000/api/user/${username}`,
       }).then((res) => {
         setUser(res.data)
+        setDescription(res.data.description)
       })
     } catch (error) {
       console.error(error)
@@ -71,7 +99,35 @@ export default function UserProfile() {
           </h2>
         )}
         <p>@{user.username}</p>
-        <p>You can also enter your preferred description in here</p>
+        {!toEdit ? (
+          <div>
+            <p>{user.description ? user.description : "No description"}</p>
+            <img
+              src={Edit}
+              alt="edit icon"
+              onClick={() => {
+                setToEdit(!toEdit)
+              }}
+            />
+          </div>
+        ) : (
+          <div>
+            <input
+              type="text"
+              placeholder={description ? description : "Enter your description"}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+            <img
+              src={Cancel}
+              alt="cancel icon"
+              onClick={() => {
+                setToEdit(!toEdit)
+              }}
+            />
+
+            <img src={Done} alt="done icon" onClick={saveDescription} />
+          </div>
+        )}
 
         {user.email && <button onClick={logoutHandler}>Logout</button>}
       </div>
