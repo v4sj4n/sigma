@@ -4,6 +4,8 @@ import { FormEvent, useState } from "react"
 import Axios from "axios"
 
 export default function Register() {
+  const [firstName, setFirstName] = useState<string>("")
+  const [lastName, setLastName] = useState<string>("")
   const [email, setEmail] = useState<string>("")
   const [username, setUsername] = useState<string>("")
   const [password1, setPassword1] = useState<string>("")
@@ -18,6 +20,8 @@ export default function Register() {
           method: "POST",
           withCredentials: true,
           data: {
+            firstName,
+            lastName,
             email,
             username,
             password: password1,
@@ -35,14 +39,24 @@ export default function Register() {
     <div className={styles.registerDiv}>
       <form onSubmit={submitHandler}>
         <h4>Login</h4>
-        <label htmlFor="email">
-          Email <br />
+        <label htmlFor="firstName">
+          FirstName <br />
           <input
-            type="email"
-            name="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="firstName"
+            name="firstName"
+            id="firstName"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+        </label>
+        <label htmlFor="lastName">
+          LastName <br />
+          <input
+            type="lastName"
+            name="lastName"
+            id="lastName"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
           />
         </label>
         <label htmlFor="username">
@@ -53,6 +67,16 @@ export default function Register() {
             id="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+          />
+        </label>
+        <label htmlFor="email">
+          Email <br />
+          <input
+            type="email"
+            name="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </label>
         <label htmlFor="password">

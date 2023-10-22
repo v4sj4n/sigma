@@ -17,7 +17,6 @@ router.post("/login", (req, res, next) => {
       req.logIn(user, (err) => {
         if (err) throw err
         res.send("Successfully Authenticated")
-        console.log(req.user)
       })
     }
   })(req, res, next)
@@ -37,6 +36,8 @@ router.post("/register", async (req, res) => {
   const hashedPsw = await bcrypt.hash(req.body.password, 10)
   await prisma.user.create({
     data: {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       email: req.body.email,
       password: hashedPsw,
       username: req.body.username,

@@ -11,19 +11,19 @@ export default function Login() {
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault()
     try {
-      await Axios({
+      const response = await Axios({
         method: "POST",
+        url: "http://localhost:3000/api/authentication/login",
         withCredentials: true,
         data: {
-          email, 
+          email,
           password,
-        },
-        url: "http://localhost:3000/api/authentication/login",
-      })
-        .then((res) => console.log(res))
-        .catch((err) => console.error(err))
-
-      navigate("/")
+        }}
+      )
+      console.log(response)
+      if (response.data !== "No User Exists") {
+        navigate("/")
+      }
     } catch (error) {
       console.error("Login failed:", error)
     }
