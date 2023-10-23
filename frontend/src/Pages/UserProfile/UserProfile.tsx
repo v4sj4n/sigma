@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import Header from "../../Components/Header/Header"
 import styles from "./UserProfile.module.css"
 import Axios from "axios"
@@ -15,7 +15,8 @@ interface User {
   email?: string
   image?: string
   description?: string
-  descriptionEdit?: boolean | undefined
+  descriptionEdit: boolean | undefined
+  profileImageEdit: boolean | undefined
   profileImage: string
 }
 
@@ -28,9 +29,12 @@ export default function UserProfile() {
     image: "",
     description: undefined,
     profileImage: "",
+    profileImageEdit: undefined,
+    descriptionEdit: undefined,
   })
   const [toEdit, setToEdit] = useState<boolean>(false)
   const [description, setDescription] = useState<string | null>(null)
+  const [file, setFile] = useState<any>()
   const { username } = useParams()
   const navigate = useNavigate()
 
@@ -87,6 +91,31 @@ export default function UserProfile() {
     }
   }
 
+  const imageUploadHandler = async (e: FormEvent) => {
+    e.preventDefault()
+    const formData = new FormData()
+    formData.append("profileImage", file)
+
+    try {
+      Axios({
+        method: "PUT",
+        withCredentials: true,
+        url: `http://localhost:3000/api/user/${username}/image`,
+        data: formData,
+      })
+        .then((res) => {
+          if (res.data.success) {
+            refresh()
+          }
+        })
+        .catch((error) => {
+          console.error("Error updating description:", error)
+        })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   useEffect(() => {
     getUser()
   }, [])
@@ -95,7 +124,24 @@ export default function UserProfile() {
       <Header />
       <div className={styles["user-profile"]}>
         <img src={user.profileImage} alt={`${user.firstName}'s image`} />
-        <input type="file" placeholder="Change picture" />
+        {user.profileImageEdit ? (
+          <>
+            <input
+              type="file"
+              placeholder="Change picture"
+              name="profileImage"
+              onChange={(e) => setFile(e.target.files[0])}
+            />
+            <input
+              type="submit"
+              onClick={imageUploadHandler}
+              value="submit image"
+              accept="image/*"
+            />
+          </>
+        ) : (
+          ""
+        )}
         {user.firstName && user.lastName && (
           <h2>
             <span>{user.firstName ?? user.firstName}</span>
