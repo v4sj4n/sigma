@@ -28,7 +28,7 @@ export default function Register() {
           },
           url: "http://localhost:3000/api/authentication/register",
         })
-        navigate("/")
+        navigate("/authenticate")
       } catch (error) {
         console.error("Registration failed:", error)
       }

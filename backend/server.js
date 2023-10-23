@@ -4,9 +4,7 @@ const cookieParser = require("cookie-parser")
 const fs = require("fs")
 const path = require("path")
 
-
 const session = require("express-session")
-
 
 const app = express()
 
@@ -24,18 +22,15 @@ app.use(
 )
 app.use(cookieParser("halaMadrid"))
 
+// Api
 app.use("/api/authentication", require("./routes/api/authentication"))
 app.use("/api/user", require("./routes/api/user"))
 
-
 // Files
 app.get("/files/*", (req, res) => {
-  // Capture the entire path after /files/
   const filePath = path.join(__dirname, "files", req.params[0])
   console.log(req.params)
   console.log(filePath)
-
-  // Check if the file exists
   fs.stat(filePath, (err, stats) => {
     if (err) {
       res.status(404).send("File not found")
@@ -44,7 +39,6 @@ app.get("/files/*", (req, res) => {
     }
   })
 })
-
 
 const PORT = process.env.PORT || 3000
 

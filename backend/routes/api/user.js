@@ -18,6 +18,7 @@ router.get("/:username", async (req, res) => {
     lastName: true,
     username: true,
     description: true,
+    profileImage: true,
   }
   if (username === signedInUser) {
     fieldsToUse.email = true
@@ -28,7 +29,7 @@ router.get("/:username", async (req, res) => {
           username,
         },
       })
-      resultToSend = { ...result, descriptionEdit: true }
+      resultToSend = { ...result, descriptionEdit: true, profileImageEdit: true}
       res.json(resultToSend)
     } catch (error) {
       res.status(500).json({ error })
@@ -41,7 +42,7 @@ router.get("/:username", async (req, res) => {
           username,
         },
       })
-      res.json({ ...result, descriptionEdit: false })
+      res.json({ ...result, descriptionEdit: false, profileImageEdit: false })
     } catch (error) {
       res.status(500).json({ error })
     }
@@ -67,5 +68,29 @@ router.put("/:username/description", async (req, res) => {
     }
   }
 })
+
+
+router.put("/:username/image", async (req, res) => {
+  const signedInUser = await req.user.username
+  const { username } = req.params
+  if (signedInUser === username) {
+    try {
+      await prisma.user.update({
+        where: {
+          username,
+        },
+        data: {
+          description: req.body.description,
+        },
+      })
+      res.status(200).json({ success: true })
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ success: false })
+    }
+  }
+})
+
+
 
 module.exports = router

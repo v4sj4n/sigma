@@ -15,7 +15,8 @@ interface User {
   email?: string
   image?: string
   description?: string
-  descriptionEdit?: boolean
+  descriptionEdit?: boolean | undefined
+  profileImage: string
 }
 
 export default function UserProfile() {
@@ -25,6 +26,8 @@ export default function UserProfile() {
     username: "",
     email: "",
     image: "",
+    description: undefined,
+    profileImage: "",
   })
   const [toEdit, setToEdit] = useState<boolean>(false)
   const [description, setDescription] = useState<string | null>(null)
@@ -75,6 +78,7 @@ export default function UserProfile() {
         withCredentials: true,
         url: `http://localhost:3000/api/user/${username}`,
       }).then((res) => {
+        console.log(res.data)
         setUser(res.data)
         setDescription(res.data.description)
       })
@@ -90,7 +94,8 @@ export default function UserProfile() {
     <>
       <Header />
       <div className={styles["user-profile"]}>
-        <img src={"/teacher.png"} alt={`{user.image}'s image`} />
+        <img src={user.profileImage} alt={`${user.firstName}'s image`} />
+        <input type="file" placeholder="Change picture" />
         {user.firstName && user.lastName && (
           <h2>
             <span>{user.firstName ?? user.firstName}</span>
