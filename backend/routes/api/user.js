@@ -9,8 +9,10 @@ router.use(passport.initialize())
 router.use(passport.session())
 
 router.get("/:username", async (req, res) => {
-  const signedInUser = await req.user.username
+  const signedInUser = (await req.user) ? req.user.username : null
+
   const { username } = req.params
+
   const fieldsToUse = {
     firstName: true,
     lastName: true,
@@ -26,7 +28,8 @@ router.get("/:username", async (req, res) => {
           username,
         },
       })
-      res.json(result)
+      resultToSend = { ...result, descriptionEdit: true }
+      res.json(resultToSend)
     } catch (error) {
       res.status(500).json({ error })
     }
@@ -38,7 +41,7 @@ router.get("/:username", async (req, res) => {
           username,
         },
       })
-      res.json(result)
+      res.json({ ...result, descriptionEdit: false })
     } catch (error) {
       res.status(500).json({ error })
     }

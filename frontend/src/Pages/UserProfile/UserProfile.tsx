@@ -15,6 +15,7 @@ interface User {
   email?: string
   image?: string
   description?: string
+  descriptionEdit?: boolean
 }
 
 export default function UserProfile() {
@@ -36,17 +37,17 @@ export default function UserProfile() {
       withCredentials: true,
       url: "http://localhost:3000/api/authentication/logout",
     })
-      .then((res) => {
-        console.log(res.data)
+      .then(() => {
         navigate("/")
       })
       .catch((err) => {
         console.error(err)
       })
   }
-
+  const refresh = () => {
+    window.location.reload()
+  }
   const saveDescription = async () => {
-    console.log(description)
     if (description) {
       await Axios({
         method: "PUT",
@@ -57,9 +58,8 @@ export default function UserProfile() {
         },
       })
         .then((res) => {
-          console.log(res)
           if (res.data.success) {
-            setToEdit(!toEdit)
+            refresh()
           }
         })
         .catch((error) => {
@@ -102,13 +102,17 @@ export default function UserProfile() {
         {!toEdit ? (
           <div>
             <p>{user.description ? user.description : "No description"}</p>
-            <img
-              src={Edit}
-              alt="edit icon"
-              onClick={() => {
-                setToEdit(!toEdit)
-              }}
-            />
+            {user.descriptionEdit ? (
+              <img
+                src={Edit}
+                alt="edit icon"
+                onClick={() => {
+                  setToEdit(!toEdit)
+                }}
+              />
+            ) : (
+              ""
+            )}
           </div>
         ) : (
           <div>
