@@ -8,12 +8,27 @@ datasource db {
 }
 
 model User {
-  id           Int     @id @default(autoincrement())
-  email        String  @unique
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
   password     String
-  username     String  @unique
+  username     String   @unique
   firstName    String
   lastName     String
   description  String?
   profileImage String   @default("http://localhost:3000/files/profileImages/default.png")
+  Course       Course[]
+  isTeacher    Boolean  @default(false)
+}
+
+model Course {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  image       String   @default("http://localhost:3000/files/courseThumbnails/default.png")
+  price       Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  author      User     @relation(fields: [authorId], references: [id])
+  authorId    Int
+  lessons     Json[]
 }

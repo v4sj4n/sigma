@@ -25,6 +25,8 @@ app.use(cookieParser("halaMadrid"))
 // Api
 app.use("/api/authentication", require("./routes/api/authentication"))
 app.use("/api/user", require("./routes/api/user"))
+app.use("/api/user", require("./routes/api/user"))
+app.use("/api/", require("./routes/api/courses"))
 
 // Files
 app.get("/files/*", (req, res) => {
