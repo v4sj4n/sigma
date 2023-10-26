@@ -21,14 +21,15 @@ model User {
 }
 
 model Course {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String
-  image       String   @default("http://localhost:3000/files/courseThumbnails/default.png")
-  price       Float
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  author      User     @relation(fields: [authorId], references: [id])
-  authorId    Int
-  lessons     Json[]
+  id               Int      @id @default(autoincrement())
+  title            String
+  description      String
+  image            String   @default("http://localhost:3000/files/courseThumbnails/default.png")
+  price            Float
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  author           User     @relation(fields: [authorId], references: [id])
+  authorId         Int
+  lessons          Json[]
+  courseIdentifier String   @unique
 }

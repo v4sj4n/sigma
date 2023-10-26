@@ -31,8 +31,6 @@ app.use("/api/", require("./routes/api/courses"))
 // Files
 app.get("/files/*", (req, res) => {
   const filePath = path.join(__dirname, "files", req.params[0])
-  console.log(req.params)
-  console.log(filePath)
   fs.stat(filePath, (err, stats) => {
     if (err) {
       res.status(404).send("File not found")

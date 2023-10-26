@@ -82,7 +82,6 @@ export default function UserProfile() {
         withCredentials: true,
         url: `http://localhost:3000/api/user/${username}`,
       }).then((res) => {
-        console.log(res.data)
         setUser(res.data)
         setDescription(res.data.description)
       })

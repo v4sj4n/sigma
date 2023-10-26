@@ -1,19 +1,28 @@
 import styles from "./Card.module.css"
-export default function Card() {
+export default function Card(props: {
+  course: {
+    title: string
+    imageSrc: string
+    identifier: string
+    author: string
+    authorImageSrc: string
+  }
+}) {
+  console.log(props)
   return (
     <div className={styles.card}>
-      <a href="">
-        <img src="template.png" alt="Course name" />
+      <a href={`/course/${props.course.identifier}`}>
+        <img src={props.course.imageSrc} alt="Course name" />
       </a>
       <h1>
-        <a href="">Course Title</a>
+        <a href={`/course/${props.course.identifier}`}>{props.course.title}</a>
       </h1>
       <div>
         <a href="">
-          <img src="teacher.png" alt="Teacher name" />
+          <img src={props.course.authorImageSrc} alt="Teacher name" />
         </a>
         <h4>
-          <a href="">Teacher Name</a>
+          <a href="">{props.course.author}</a>
         </h4>
       </div>
     </div>

@@ -20,7 +20,6 @@ export default function Login() {
           password,
         },
       })
-      console.log(response)
       if (response.data !== "No User Exists") {
         navigate("/")
       }

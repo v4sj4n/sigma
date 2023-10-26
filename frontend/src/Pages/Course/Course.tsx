@@ -3,6 +3,7 @@ import Header from "../../Components/Header/Header";
 import styles from "./Course.module.css";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
+import ReactPlayer from "react-player";
 
 interface Course {
  title : string;
@@ -14,19 +15,6 @@ interface Course {
  price: number
 }
 export default function Course() {
-    // const course: {
-    //   title: string
-    //   description: string
-    //   author: string
-    //   courseImage: string
-    //   teacherImage: string
-    // } = {
-    //   title: "React Basics",
-    //   description: "The fundamentals of React",
-    //   author: "Rexhina Zisko",
-    //   courseImage: "/template.png",
-    //   teacherImage: "/teacher.png",
-    // }
 
     const { title } = useParams()
     const [course, setCourse] = useState<Course | undefined>()
@@ -61,14 +49,18 @@ export default function Course() {
             <ul>
               {course.lessons.map((lesson) => (
                 <li key={lesson.id}>
-                  <a href={`/course/${title}/lesson/${lesson.id}`}>{lesson.title}</a>
+                  <a href={`/course/${title}/lesson/${lesson.id}`}>
+                    {lesson.title}
+                  </a>
                 </li>
               ))}
             </ul>
           </div>
         </div>
       ) : (
-        <p>Loading...</p>
+        <>
+          <p>Loading...</p>
+        </>
       )}
     </>
   )

@@ -26,18 +26,17 @@ const Header = () => {
 
       <div>
         <a href="/">Dashboard</a>
-        <a href="/">Explore</a>
-        {loggedInUser ? (
-          <a href={`/user/${loggedInUser}`}>{loggedInUser}</a>
-        ) : (
-          <a href="/authenticate">Authenticate</a>
-        )}
+
+        <a href="/search">
+          Search
+        </a>
       </div>
 
-      <a href="">
-        <img src="" alt="" />
-        Search
-      </a>
+      {loggedInUser ? (
+        <a href={`/user/${loggedInUser}`}>{loggedInUser}</a>
+      ) : (
+        <a href="/authenticate">Authenticate</a>
+      )}
     </nav>
   )
 }
