@@ -42,6 +42,31 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/login',
   },
+  callbacks: {
+    session: ({ session, token }) => {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+          name: token.name,
+          username: token.username,
+        },
+      }
+    },
+    jwt({ token, user }) {
+      if (user) {
+        const u = user as unknown as any
+        return {
+          ...token,
+          id: u.id,
+          name: u.name,
+          username: u.username,
+        }
+      }
+      return token
+    },
+  },
 }
 
 const handler = NextAuth(authOptions)

@@ -6,64 +6,86 @@ import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { Alert } from '../Alert'
+import { z } from 'zod'
+
+const LoginFormSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6).max(64),
+})
 
 export const LoginForm = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get('callbackUrl') || '/'
-  const [email, setEmail] = useState<string>()
-  const [password, setPassword] = useState<string>()
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
   const [error, setError] = useState<string | null>('')
-  const onSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
     try {
-      const res = await signIn('credentials', {
-        redirect: false,
-        email,
-        password,
-        callbackUrl,
-      })
-      if (!res?.error) {
-        router.push(callbackUrl)
+      const validation = LoginFormSchema.safeParse({ email, password })
+      if (!validation.success) {
+        const firstIssue = validation.error.issues[0]
+        setError(`Problem in: ${firstIssue.path[0]} | ${firstIssue.message}`)
       } else {
-        setError('Invalid email or password')
+        const res = await signIn('credentials', {
+          redirect: false,
+          email,
+          password,
+          callbackUrl,
+        })
+        if (!res?.error) {
+          console.log(callbackUrl)
+          const routeToPush = callbackUrl.endsWith('register')
+            ? '/'
+            : callbackUrl
+          router.push(routeToPush)
+        } else {
+          setError('Invalid email or password')
+        }
       }
     } catch (error) {
       console.log(error)
     }
   }
   return (
-    <div className='mx-auto '>
+    <div className='mx-auto md:w-[600px] sm:w-full'>
       <form
-        onSubmit={onSubmit}
-        className='border border-slate-200 shadow-lg flex flex-col items-center  mx-auto max-w-fit px-20 pt-12 pb-8 rounded-xl'
+        onSubmit={handleSubmit}
+        className='border border-slate-200 shadow-lg flex flex-col items-center   mx-auto  px-12 pt-12 pb-8 rounded-xl'
       >
-        <label className='block mb-4 text-xl' htmlFor='email'>
+        <label className='block mb-4 w-full text-xl' htmlFor='email'>
           Email
           <br />
           <input
             type='email'
             name='email'
-            id='email'
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className='border rounded-md px-2 h-12'
+            id='email'
+            className='border w-full rounded-md px-2 h-12'
             placeholder='Enter your email'
             required
           />
         </label>
-        <label className='block mb-4 text-xl' htmlFor='password'>
+        <label className='block mb-4 w-full text-xl' htmlFor='password'>
           Password
           <br />
           <input
             type='password'
             name='password'
-            id='password'
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className='border rounded-md px-2 h-12'
+            id='password'
+            className='border rounded-md w-full px-2 h-12'
             placeholder='Enter your password'
+            min={6}
+            max={64}
             required
           />
         </label>
+
         {error && <Alert>{error}</Alert>}
 
         <button className='rounded-md mb-8 mt-4 bg-slate-800 text-slate-200 w-full py-2'>
@@ -74,7 +96,7 @@ export const LoginForm = () => {
           className='text-center text-blue-600 hover:underline hover:text-blue-400'
           href={'/register'}
         >
-          Create an account
+          Create your account
         </Link>
       </form>
     </div>

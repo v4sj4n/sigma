@@ -26,6 +26,7 @@ export const RegisterForm = () => {
           confirmPassword,
         }),
       })
+      console.log(res)
       if (res.ok) {
         signIn()
       } else {
@@ -36,12 +37,12 @@ export const RegisterForm = () => {
     }
   }
   return (
-    <div className='mx-auto w-96'>
+    <div className='mx-auto md:w-[600px] sm:w-full'>
       <form
         onSubmit={handleSubmit}
-        className='border border-slate-200 shadow-lg flex flex-col items-center  mx-auto  px-20 pt-12 pb-8 rounded-xl'
+        className='border border-slate-200 shadow-lg flex flex-col items-center   mx-auto  px-12 pt-12 pb-8 rounded-xl'
       >
-        <label className='block mb-4 text-xl' htmlFor='name'>
+        <label className='block mb-4 w-full text-xl' htmlFor='name'>
           Name
           <br />
           <input
@@ -50,11 +51,11 @@ export const RegisterForm = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
             id='name'
-            className='border rounded-md px-2 h-12'
+            className='border rounded-md w-full px-2 h-12'
             placeholder='Enter your name'
           />
         </label>
-        <label className='block mb-4 text-xl' htmlFor='username'>
+        <label className='block w-full mb-4 text-xl' htmlFor='username'>
           Username
           <br />
           <input
@@ -63,13 +64,13 @@ export const RegisterForm = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             id='username'
-            className='border rounded-md px-2 h-12'
+            className='border w-full rounded-md px-2 h-12'
             placeholder='Enter your username'
             min={6}
             required
           />
         </label>
-        <label className='block mb-4 text-xl' htmlFor='email'>
+        <label className='block mb-4 w-full text-xl' htmlFor='email'>
           Email
           <br />
           <input
@@ -78,12 +79,12 @@ export const RegisterForm = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             id='email'
-            className='border rounded-md px-2 h-12'
+            className='border w-full rounded-md px-2 h-12'
             placeholder='Enter your email'
             required
           />
         </label>
-        <label className='block mb-4 text-xl' htmlFor='password'>
+        <label className='block mb-4 w-full text-xl' htmlFor='password'>
           Password
           <br />
           <input
@@ -92,14 +93,14 @@ export const RegisterForm = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             id='password'
-            className='border rounded-md px-2 h-12'
+            className='border rounded-md w-full px-2 h-12'
             placeholder='Enter your password'
             min={6}
             max={64}
             required
           />
         </label>
-        <label className='block mb-4 text-xl' htmlFor='confirmPassword'>
+        <label className='block mb-4 w-full text-xl' htmlFor='confirmPassword'>
           Confirm Password
           <br />
           <input
@@ -108,7 +109,7 @@ export const RegisterForm = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             id='confirmPassword'
-            className='border rounded-md px-2 h-12'
+            className='border rounded-md w-full px-2 h-12'
             placeholder='Enter your password'
             min={6}
             max={64}

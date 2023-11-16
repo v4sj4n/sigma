@@ -1,46 +1,66 @@
 import prisma from '@/lib/prisma'
 import { hash } from 'bcrypt'
 import { NextResponse } from 'next/server'
+import { z } from 'zod'
+
+const UserRegisterSchema = z.object({
+  name: z.string().optional(),
+  email: z.string().email(),
+  username: z.string().min(6),
+  password: z.string().min(6).max(64),
+  confirmPassword: z.string().min(6).max(64),
+})
 
 export const POST = async (req: Request) => {
+  const { name, email, username, password, confirmPassword } = await req.json()
+
+  const validation = UserRegisterSchema.safeParse({
+    name,
+    email,
+    username,
+    password,
+    confirmPassword,
+  })
+
+  if (!validation.success) {
+    const firstIssue = validation.error.issues[0]
+    return NextResponse.json(
+      { error: `Problem in: ${firstIssue.path[0]} | ${firstIssue.message}` },
+      { status: 400 }
+    )
+  }
+
+  if (password !== confirmPassword) {
+    return NextResponse.json(
+      { error: 'Passwords do not match' },
+      { status: 400 }
+    )
+  }
+
+  const isEmailAlreadyRegistered = prisma.user.findUnique({
+    where: {
+      email,
+    },
+  })
+  if (!isEmailAlreadyRegistered)
+    return NextResponse.json(
+      { error: 'User with that email exists' },
+      { status: 400 }
+    )
+
+  const isUsernameAlreadyRegistered = prisma.user.findUnique({
+    where: {
+      username,
+    },
+  })
+  if (!isUsernameAlreadyRegistered) {
+    return NextResponse.json(
+      { error: 'User with that username exists' },
+      { status: 400 }
+    )
+  }
+
   try {
-    const { name, email, username, password, confirmPassword } =
-      await req.json()
-
-    const isEmailAlreadyRegistered = prisma.user.findUnique({
-      where: {
-        email,
-      },
-    })
-    if (!isEmailAlreadyRegistered)
-      return NextResponse.json(
-        { message: 'User with that email exists' },
-        { status: 400 }
-      )
-
-    const isUsernameAlreadyRegistered = prisma.user.findUnique({
-      where: {
-        username,
-      },
-    })
-    if (!isUsernameAlreadyRegistered) {
-      return NextResponse.json(
-        { message: 'User with that username exists' },
-        { status: 400 }
-      )
-    }
-    if (password.length < 6) {
-      return NextResponse.json(
-        { message: 'Password is too short, must be more than 6 characters' },
-        { status: 400 }
-      )
-    }
-    if (password !== confirmPassword) {
-      return NextResponse.json(
-        { message: 'Passwords do not match' },
-        { status: 400 }
-      )
-    }
     const user = await prisma.user.create({
       data: {
         name: name ?? '',
