@@ -1,12 +1,15 @@
 'use client'
 
-import Image from 'next/image'
+import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useState } from 'react'
+import { LoggedInUser, NotLoggedInUser } from './NavbarUser'
 
 export const Navbar = () => {
   const [showUserDropdown, setShowUserDropdown] = useState<boolean>(false)
   const [showMobileUserModal, setShowMobileUserModal] = useState<boolean>(false)
+  const getUser = useSession()
+  console.log(getUser)
   return (
     <nav className='bg-gray-800'>
       <div className='mx-auto max-w-7xl px-2 sm:px-6 lg:px-8'>
@@ -31,12 +34,12 @@ export const Navbar = () => {
                 className='block h-6 w-6'
                 fill='none'
                 viewBox='0 0 24 24'
-                stroke-width='1.5'
+                strokeWidth='1.5'
                 stroke='currentColor'
                 aria-hidden='true'
               >
                 <path
-                  stroke-linecap='round'
+                  strokeLinecap='round'
                   strokeLinejoin='round'
                   d='M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5'
                 />
@@ -50,12 +53,12 @@ export const Navbar = () => {
                 className='hidden h-6 w-6'
                 fill='none'
                 viewBox='0 0 24 24'
-                stroke-width='1.5'
+                strokeWidth='1.5'
                 stroke='currentColor'
                 aria-hidden='true'
               >
                 <path
-                  stroke-linecap='round'
+                  strokeLinecap='round'
                   strokeLinejoin='round'
                   d='M6 18L18 6M6 6l12 12'
                 />
@@ -91,28 +94,11 @@ export const Navbar = () => {
             {/* Profile dropdown  */}
             <div
               className='relative ml-3'
-              onClick={() => setShowUserDropdown((prev) => !prev)}
+              onClick={() => {
+                if (getUser.data) setShowUserDropdown((prev) => !prev)
+              }}
             >
-              <div>
-                <button
-                  type='button'
-                  className='relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800'
-                  id='user-menu-button'
-                  aria-expanded='false'
-                  aria-haspopup='true'
-                >
-                  <span className='absolute -inset-1.5'></span>
-                  <span className='sr-only'>Open user menu</span>
-
-                  <Image
-                    className='h-8 w-8 rounded-full'
-                    src='/userImage.png'
-                    width={32}
-                    height={32}
-                    alt=''
-                  />
-                </button>
-              </div>
+              {getUser.data ? <LoggedInUser /> : <NotLoggedInUser />}
               {/* 
             Dropdown menu, show/hide based on menu state.
 
@@ -155,6 +141,7 @@ export const Navbar = () => {
                     role='menuitem'
                     tabIndex={-1}
                     id='user-menu-item-2'
+                    onClick={() => signOut()}
                   >
                     Sign out
                   </a>

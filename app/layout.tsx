@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Gabarito } from 'next/font/google'
 import './globals.css'
+import { AuthProvider } from '@/components/context/AuthProvide'
+import { Navbar } from '@/components/ui/Navbar'
 
 const gabarito = Gabarito({ subsets: ['latin'] })
 
@@ -16,7 +18,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className={gabarito.className}>{children}</body>
+      <body className={gabarito.className}>
+        <AuthProvider>
+          <Navbar />
+          {children}
+        </AuthProvider>
+      </body>
     </html>
   )
 }
