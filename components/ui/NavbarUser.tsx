@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-export const LoggedInUser = () => {
+const LoggedInUser = () => {
   return (
     <div>
       <button
@@ -28,10 +28,12 @@ export const LoggedInUser = () => {
   )
 }
 
-export const NotLoggedInUser = () => {
+const NotLoggedInUser = () => {
   return (
     <Link href={'/api/auth/signin'} className='invert'>
       Authenticate
     </Link>
   )
 }
+
+export { LoggedInUser, NotLoggedInUser }

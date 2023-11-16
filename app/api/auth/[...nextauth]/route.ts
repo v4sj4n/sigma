@@ -2,6 +2,7 @@ import prisma from '@/lib/prisma'
 import { compare } from 'bcrypt'
 import NextAuth, { User, type NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import { signIn } from 'next-auth/react'
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -31,12 +32,16 @@ export const authOptions: NextAuthOptions = {
         if (!isPasswordValid) return null
         return {
           id: `${user.id}`,
-          email: user.email,
           name: user.name,
+          email: user.email,
+          username: user.username,
         }
       },
     }),
   ],
+  pages: {
+    signIn: '/login',
+  },
 }
 
 const handler = NextAuth(authOptions)
