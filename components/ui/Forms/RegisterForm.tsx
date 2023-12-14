@@ -12,7 +12,7 @@ export const RegisterForm = () => {
   const [username, setUsername] = useState<string>()
   const [password, setPassword] = useState<string>()
   const [confirmPassword, setConfirmPassword] = useState<string>()
-  const [isAlsoTeacher, setIsAlsoTeacher] = useState<boolean>()
+  const [isAlsoTeacher, setIsAlsoTeacher] = useState<boolean>(false)
   const [error, setError] = useState<string | null>("")
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

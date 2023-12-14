@@ -7,9 +7,15 @@ export default async function Page() {
       title: true,
       description: true,
       id: true,
-      thumbnailLocation: true,
+      thumbnail: true,
       authorId: true,
       slug: true,
+      author: {
+        select: {
+          name: true,
+          username: true
+        }
+      }
     },
   })
   return (

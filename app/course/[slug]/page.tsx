@@ -3,13 +3,11 @@ import Link from "next/link"
 import React from "react"
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  console.log(params.slug)
   const course = await prisma.course.findUnique({
     where: {
       slug: params.slug,
     },
   })
-  console.log(course)
   return (
     <main className="w-[64.5%] ml-auto mr-auto mt-8">
       <h2 className="text-5xl font-bold">{course?.title}</h2>
