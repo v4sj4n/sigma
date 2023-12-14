@@ -26,9 +26,8 @@ export const POST = async (req: Request) => {
   })
 
   if (!validation.success) {
-    const firstIssue = validation.error.issues[0]
     return NextResponse.json(
-      { error: `Problem in: ${firstIssue.path[0]} | ${firstIssue.message}` },
+      { error: `There was a problem` },
       { status: 400 }
     )
   }
@@ -40,7 +39,7 @@ export const POST = async (req: Request) => {
     )
   }
 
-  const isEmailAlreadyRegistered = prisma.user.findUnique({
+  const isEmailAlreadyRegistered = await prisma.user.findUnique({
     where: {
       email,
     },
@@ -51,7 +50,7 @@ export const POST = async (req: Request) => {
       { status: 400 }
     )
 
-  const isUsernameAlreadyRegistered = prisma.user.findUnique({
+  const isUsernameAlreadyRegistered = await prisma.user.findUnique({
     where: {
       username,
     },
