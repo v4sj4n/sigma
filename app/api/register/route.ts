@@ -1,7 +1,7 @@
-import prisma from '@/lib/prisma'
-import { hash } from 'bcrypt'
-import { NextResponse } from 'next/server'
-import { z } from 'zod'
+import prisma from "@/lib/prisma"
+import { hash } from "bcrypt"
+import { NextResponse } from "next/server"
+import { z } from "zod"
 
 const UserRegisterSchema = z.object({
   name: z.string().optional(),
@@ -9,10 +9,12 @@ const UserRegisterSchema = z.object({
   username: z.string().min(6),
   password: z.string().min(6).max(64),
   confirmPassword: z.string().min(6).max(64),
+  isAlsoTeacher: z.boolean().optional(),
 })
 
 export const POST = async (req: Request) => {
-  const { name, email, username, password, confirmPassword } = await req.json()
+  const { name, email, username, password, confirmPassword, isAlsoTeacher } =
+    await req.json()
 
   const validation = UserRegisterSchema.safeParse({
     name,
@@ -20,6 +22,7 @@ export const POST = async (req: Request) => {
     username,
     password,
     confirmPassword,
+    isAlsoTeacher,
   })
 
   if (!validation.success) {
@@ -32,7 +35,7 @@ export const POST = async (req: Request) => {
 
   if (password !== confirmPassword) {
     return NextResponse.json(
-      { error: 'Passwords do not match' },
+      { error: "Passwords do not match" },
       { status: 400 }
     )
   }
@@ -44,7 +47,7 @@ export const POST = async (req: Request) => {
   })
   if (!isEmailAlreadyRegistered)
     return NextResponse.json(
-      { error: 'User with that email exists' },
+      { error: "User with that email exists" },
       { status: 400 }
     )
 
@@ -55,7 +58,7 @@ export const POST = async (req: Request) => {
   })
   if (!isUsernameAlreadyRegistered) {
     return NextResponse.json(
-      { error: 'User with that username exists' },
+      { error: "User with that username exists" },
       { status: 400 }
     )
   }
@@ -63,10 +66,11 @@ export const POST = async (req: Request) => {
   try {
     const user = await prisma.user.create({
       data: {
-        name: name ?? '',
+        name: name ?? "",
         email,
         username,
         password: await hash(password, 10),
+        isAlsoTeacher,
       },
     })
 

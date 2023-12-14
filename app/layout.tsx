@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Gabarito } from 'next/font/google'
 import './globals.css'
-import { AuthProvider } from '@/components/context/AuthProvide'
+import { AuthProvider } from '@/components/context/AuthProvider'
 import { Navbar } from '@/components/ui/Navbar'
 
 const gabarito = Gabarito({ subsets: ['latin'] })
