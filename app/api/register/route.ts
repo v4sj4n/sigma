@@ -26,8 +26,9 @@ export const POST = async (req: Request) => {
   })
 
   if (!validation.success) {
+    const firstIssue = validation.error.issues[0]
     return NextResponse.json(
-      { error: `There was a problem` },
+      { error: `Problem in: ${firstIssue.path[0]} | ${firstIssue.message}` },
       { status: 400 }
     )
   }
