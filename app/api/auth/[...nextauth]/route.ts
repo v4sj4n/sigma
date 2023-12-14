@@ -1,19 +1,18 @@
-import prisma from '@/lib/prisma'
-import { compare } from 'bcrypt'
-import NextAuth, { User, type NextAuthOptions } from 'next-auth'
-import CredentialsProvider from 'next-auth/providers/credentials'
-import { signIn } from 'next-auth/react'
+import prisma from "@/lib/prisma"
+import { compare } from "bcrypt"
+import NextAuth, { User, type NextAuthOptions } from "next-auth"
+import CredentialsProvider from "next-auth/providers/credentials"
 
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      name: 'Credentials',
+      name: "Credentials",
       credentials: {
-        email: { label: 'Email', type: 'text', placeholder: 'email' },
+        email: { label: "Email", type: "text", placeholder: "email" },
         password: {
-          label: 'Password',
-          type: 'password',
-          placeholder: 'password',
+          label: "Password",
+          type: "password",
+          placeholder: "password",
         },
       },
       async authorize(credentials) {
@@ -40,7 +39,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   pages: {
-    signIn: '/login',
+    signIn: "/login",
   },
   callbacks: {
     session: ({ session, token }) => {
